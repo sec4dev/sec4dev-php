@@ -1,0 +1,31 @@
+{
+    "name": "sec4dev/php",
+    "description": "Sec4Dev Security Checks API - PHP SDK",
+    "type": "library",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        { "name": "Sec4Dev" }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "guzzlehttp/guzzle": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sec4Dev\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sec4Dev\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0"
+    },
+    "minimum-stability": "stable"
+}

@@ -1,0 +1,44 @@
+# Dependencies
+vendor/
+composer.phar
+
+# PHPUnit
+.phpunit.result.cache
+.phpunit.cache/
+phpunit.xml.bak
+
+# Coverage and reports
+coverage/
+.clover
+phpunit.xml.dist
+
+# IDE and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.buildpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+.env.testing
+
+# Logs and cache
+*.log
+logs/
+cache/
+var/
+
+# Local / tool-specific
+.claude/
