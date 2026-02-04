@@ -1,14 +1,17 @@
 # Sec4Dev PHP SDK
 
-Official PHP client for the [Sec4Dev](https://sec4.dev) Security Checks API. Check disposable emails and classify IP addresses (hosting, VPN, TOR, residential, etc.).
+PHP client for the [Sec4Dev Security Checks API](https://api.sec4.dev): disposable email detection and IP classification.
+
+## Documentation
+
+Full API documentation: [https://docs.sec4.dev/](https://docs.sec4.dev/)
 
 ## Requirements
 
 - PHP 8.0+
 - [Composer](https://getcomposer.org/)
-- Guzzle HTTP (installed via Composer)
 
-## Installation
+## Install
 
 ```bash
 composer require sec4dev/php
@@ -24,7 +27,7 @@ Or add to your `composer.json`:
 }
 ```
 
-## Quick Start
+## Usage
 
 ```php
 <?php
@@ -60,68 +63,48 @@ try {
 }
 ```
 
-## Configuration
+## Options
+
+Constructor parameters:
+
+- `apiKey` — API key (required, must start with `sec4_`)
+- `baseUrl` — API base URL (default: `https://api.sec4.dev/api/v1`)
+- `timeout` — Request timeout in ms (default: 30000)
+- `retries` — Retry attempts (default: 3)
+- `retryDelay` — Base retry delay in ms (default: 1000)
+- `onRateLimit` — Optional callback for rate limit updates
+
+Example:
 
 ```php
 $client = new Client(
     apiKey: 'sec4_your_api_key',
-    baseUrl: 'https://api.sec4.dev/api/v1',  // optional
-    timeout: 30000,   // milliseconds, optional
-    retries: 3,       // optional
-    retryDelay: 1000, // milliseconds, optional
+    baseUrl: 'https://api.sec4.dev/api/v1',
+    timeout: 30000,
+    retries: 3,
+    retryDelay: 1000,
     onRateLimit: function (Sec4Dev\Model\RateLimitInfo $info) {
         // Called after each request with rate limit headers
     }
 );
 ```
 
-## Email API
-
-- **`$client->email()->check(string $email): EmailCheckResult`**  
-  Returns full result with `email`, `domain`, `isDisposable`.
-
-- **`$client->email()->isDisposable(string $email): bool`**  
-  Returns only whether the domain is disposable.
-
-## IP API
-
-- **`$client->ip()->check(string $ip): IPCheckResult`**  
-  Returns full result: `ip`, `classification`, `confidence`, `signals`, `network`, `geo`.
-
-- **`$client->ip()->isHosting(string $ip): bool`**
-- **`$client->ip()->isVpn(string $ip): bool`**
-- **`$client->ip()->isTor(string $ip): bool`**
-- **`$client->ip()->isResidential(string $ip): bool`**
-- **`$client->ip()->isMobile(string $ip): bool`**
-
-## Rate limit info
-
-```php
-$client->email()->check('user@example.com');
-$rateLimit = $client->getRateLimit();
-echo "Remaining: {$rateLimit->remaining}\n";
-```
-
 ## Exceptions
 
-| Exception | HTTP | Description |
-|-----------|------|-------------|
-| `AuthenticationException` | 401 | Invalid or missing API key |
-| `PaymentRequiredException` | 402 | Quota exceeded |
-| `ForbiddenException` | 403 | Account deactivated |
-| `NotFoundException` | 404 | Resource not found |
-| `ValidationException` | 422 | Invalid input (email/IP format) |
-| `RateLimitException` | 429 | Rate limit exceeded (`retryAfter`, `limit`, `remaining`) |
-| `ServerException` | 5xx | Server error |
-| `Sec4DevException` | - | Base exception |
+| Exception                  | HTTP | Description                    |
+|---------------------------|------|--------------------------------|
+| `AuthenticationException` | 401  | Invalid or missing API key     |
+| `PaymentRequiredException`| 402  | Quota exceeded                 |
+| `ForbiddenException`      | 403  | Account deactivated            |
+| `NotFoundException`      | 404  | Resource not found             |
+| `ValidationException`     | 422  | Invalid input (email/IP format)|
+| `RateLimitException`      | 429  | Rate limit exceeded            |
+| `ServerException`         | 5xx  | Server error                   |
+| `Sec4DevException`        | -    | Base exception                 |
 
-## Running tests
+## Testing
 
 ```bash
 composer install
 composer test
 ```
-
-## License
-
-MIT
